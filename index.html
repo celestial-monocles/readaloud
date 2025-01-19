@@ -5,18 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Submission</title>
     <style>
+        :root {
+            --background-color: #f4f4f9;
+            --text-color: #000;
+            --container-background: #fff;
+            --button-background: #007BFF;
+            --button-hover: #0056b3;
+            --border-color: #ccc;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --text-color: #fff;
+            --container-background: #1e1e1e;
+            --button-background: #4a90e2;
+            --button-hover: #357ab7;
+            --border-color: #444;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: Georgia, serif;
             margin: 20px;
             padding: 20px;
-            background-color: #f4f4f9;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
         .container {
             max-width: 600px;
             margin: auto;
             padding: 20px;
-            background: white;
-            border: 1px solid #ccc;
+            background: var(--container-background);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
@@ -25,35 +44,53 @@
             height: 100px;
             margin-bottom: 10px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             resize: none;
             box-sizing: border-box;
+            font-family: Georgia, serif;
+            background: var(--container-background);
+            color: var(--text-color);
         }
         button {
             padding: 10px 20px;
             color: white;
-            background-color: #007BFF;
+            background-color: var(--button-background);
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: var(--button-hover);
         }
         .output {
             margin-top: 20px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
-            background: #f9f9f9;
+            background: var(--container-background);
+            color: var(--text-color);
             white-space: pre-wrap;
+            font-family: Georgia, serif;
+        }
+        .theme-toggle {
+            margin-bottom: 10px;
+            text-align: right;
+        }
+        .theme-toggle button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
     <div class="container">
-        <h2>Paste and Submit Text</h2>
+        <div class="theme-toggle">
+            <button onclick="toggleTheme()" id="themeButton">🔆</button>
+        </div>
+        <!-- <h2>Paste and Submit Text</h2> --!>
         <textarea id="userText" placeholder="Paste your text here..."></textarea>
         <button onclick="displayText()">Submit</button>
 
@@ -70,6 +107,16 @@
             } else {
                 outputDiv.textContent = "No text submitted.";
             }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+
+            const themeButton = document.getElementById('themeButton');
+            themeButton.textContent = newTheme === 'light' ? '🔆' : '🌙';
         }
     </script>
 </body>
