@@ -107,24 +107,28 @@
 </head>
 <body data-theme="light">
     <div class="container">
-        <div class="controls" aria-hidden="true">
-            <div class="theme-toggle">
-                <button onclick="toggleTheme()" id="themeButton">🔆</button>
+        <!-- Wrap the main content with <main> and give it a role="main" for better identification -->
+        <main role="main">
+            <div class="controls" aria-hidden="true">
+                <div class="theme-toggle">
+                    <button onclick="toggleTheme()" id="themeButton">🔆</button>
+                </div>
+
+                <div class="font-size-controls">
+                    <button onclick="changeFontSize(-2)">A-</button>
+                    <button onclick="changeFontSize(2)">A+</button>
+                </div>
             </div>
 
-            <div class="font-size-controls">
-                <button onclick="changeFontSize(-2)">A-</button>
-                <button onclick="changeFontSize(2)">A+</button>
+            <textarea id="userText" placeholder="Simple MS Edge Read Aloud text tool. This text will be replaced once you submit. Then you can use the read aloud feature. Use Ctrl+Shift+U, or right click 'Read Aloud' to start it."></textarea>
+            
+            <div class="submit-button">
+                <button onclick="displayText()">Submit</button>
             </div>
-        </div>
 
-        <textarea id="userText" placeholder="Simple MS Edge Read Aloud text tool. This text will be replaced once you submit. Then you can use the read aloud feature. Use Ctrl+Shift+U, or right click 'Read Aloud' to start it."></textarea>
-        
-        <div class="submit-button">
-            <button onclick="displayText()">Submit</button>
-        </div>
-
-        <div id="output" class="output" aria-live="polite" role="region"></div>
+            <!-- Use a <section> tag for the output for better structure and readability -->
+            <section id="output" class="output" aria-live="polite" role="region"></section>
+        </main>
     </div>
 
     <script>
