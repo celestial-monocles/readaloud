@@ -107,6 +107,7 @@
 </head>
 <body data-theme="light">
     <div class="container">
+        <!-- Wrap the main content with <main> and give it a role="main" for better identification -->
         <main role="main">
             <div class="controls" aria-hidden="true">
                 <div class="theme-toggle">
@@ -122,9 +123,10 @@
             <textarea id="userText" placeholder="Simple MS Edge Read Aloud text tool. This text will be replaced once you submit. Then you can use the read aloud feature. Use Ctrl+Shift+U, or right click 'Read Aloud' to start it."></textarea>
             
             <div class="submit-button">
-                <button onclick="displayText()" aria-hidden="true">Submit</button>
+                <button onclick="displayText()">Submit</button>
             </div>
 
+            <!-- Use a <section> tag for the output for better structure and readability -->
             <section id="output" class="output" aria-live="polite" role="region"></section>
         </main>
     </div>
