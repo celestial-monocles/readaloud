@@ -64,6 +64,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin-left: 10px;
         }
         button:hover {
             background-color: var(--button-hover);
@@ -103,6 +104,12 @@
             justify-content: flex-end;
             margin-top: 10px;
         }
+        .clear-button {
+            background-color: #e74c3c !important; /* Red color for clear button */
+        }
+        .clear-button:hover {
+            background-color: #c0392b !important; /* Darker red on hover */
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -123,6 +130,7 @@
             <textarea id="userText" placeholder="Simple MS Edge Read Aloud text tool. This text will be replaced once you submit. Then you can use the read aloud feature. Use Ctrl+Shift+U, or right click 'Read Aloud' to start it."></textarea>
             
             <div class="submit-button">
+                <button onclick="clearAll()" class="clear-button">Clear All</button>
                 <button onclick="displayText()">Submit</button>
             </div>
 
@@ -132,16 +140,48 @@
     </div>
 
     <script>
+        // Load saved text when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedText = localStorage.getItem('userText');
+            const savedOutput = localStorage.getItem('outputText');
+            
+            if (savedText) {
+                document.getElementById('userText').value = savedText;
+            }
+            
+            if (savedOutput) {
+                document.getElementById('output').innerHTML = savedOutput;
+            }
+        });
+
         function displayText() {
             const text = document.getElementById('userText').value;
             const outputDiv = document.getElementById('output');
 
             if (text.trim()) {
                 // Replace newlines with <br> tags to preserve line breaks
-                outputDiv.innerHTML = text.replace(/\n/g, '<br>');
+                const formattedText = text.replace(/\n/g, '<br>');
+                outputDiv.innerHTML = formattedText;
+                
+                // Save both the input and output to localStorage
+                localStorage.setItem('userText', text);
+                localStorage.setItem('outputText', formattedText);
             } else {
                 outputDiv.innerHTML = "No text submitted.";
+                // Clear storage if no text
+                localStorage.removeItem('userText');
+                localStorage.removeItem('outputText');
             }
+        }
+
+        function clearAll() {
+            // Clear the textarea and output
+            document.getElementById('userText').value = '';
+            document.getElementById('output').innerHTML = '';
+            
+            // Remove from localStorage
+            localStorage.removeItem('userText');
+            localStorage.removeItem('outputText');
         }
 
         function toggleTheme() {
@@ -152,13 +192,35 @@
 
             const themeButton = document.getElementById('themeButton');
             themeButton.textContent = newTheme === 'light' ? '🔆' : '🌙';
+            
+            // Save theme preference
+            localStorage.setItem('theme', newTheme);
         }
 
         function changeFontSize(amount) {
             const root = document.documentElement;
             let currentSize = parseInt(getComputedStyle(root).getPropertyValue('--font-size'));
             root.style.setProperty('--font-size', `${currentSize + amount}px`);
+            
+            // Save font size preference
+            localStorage.setItem('fontSize', `${currentSize + amount}px`);
         }
+        
+        // Load saved theme and font size
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const savedFontSize = localStorage.getItem('fontSize');
+            
+            if (savedTheme) {
+                document.body.setAttribute('data-theme', savedTheme);
+                const themeButton = document.getElementById('themeButton');
+                themeButton.textContent = savedTheme === 'light' ? '🔆' : '🌙';
+            }
+            
+            if (savedFontSize) {
+                document.documentElement.style.setProperty('--font-size', savedFontSize);
+            }
+        });
     </script>
 </body>
 </html>
